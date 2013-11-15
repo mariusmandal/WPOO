@@ -1,6 +1,6 @@
 <?php
 /* 
-Class Name: wp_get_post
+Class Name: WPOO_Post
 Class URI: https://github.com/mariusmandal/WPOO
 Description: Wordpress ObjectOriented Post. Used to generate PHP object for a given WP POST
 Author: Marius Mandal 
