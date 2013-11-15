@@ -1,5 +1,4 @@
 <?php
-namespace WPOO;
 /* 
 Class Name: wp_get_post
 Class URI: https://github.com/mariusmandal/WPOO
@@ -8,8 +7,8 @@ Author: Marius Mandal
 Version: 0.1 
 Author URI: http://www.mariusmandal.no
 */
-class wp_get_post {
-	public function __construct($post) {
+class WPOO_Post
+{	public function __construct($post) {
 		$this->_find_wp_themedir();
 		$this->_raw($post);		
 		$this->_title($post);
