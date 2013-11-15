@@ -1,4 +1,5 @@
 <?php
+namespace WPOO;
 /* 
 Class Name: wp_get_post
 Class URI: https://github.com/mariusmandal/WPOO

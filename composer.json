@@ -1,0 +1,24 @@
+{
+    "name": "mariusmandal/WPOO",
+    "type": "library",
+    "description": "Helper classes for object-oriented wordpress themes",
+    "keywords": ["wordpress","themes"],
+    "homepage": "https://github.com/mariusmandal/WPOO",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marius Mandal",
+            "email": "mariusmandal@gmail.com",
+            "homepage": "http://mariusmandal.no",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "WPOO\\": "src"
+        }
+    }
+}
