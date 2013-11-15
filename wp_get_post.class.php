@@ -9,6 +9,7 @@ Author URI: http://www.mariusmandal.no
 */
 class wp_get_post {
 	public function __construct($post) {
+		$this->_find_wp_themedir();
 		$this->_raw($post);		
 		$this->_title($post);
 		$this->_content($post);
@@ -20,6 +21,13 @@ class wp_get_post {
 		
 		$this->facebook = new stdClass;
 		$this->facebook->shares = 0;
+		
+	}
+	
+	private function _find_wp_themedir() {
+		if(function_exists('get_stylesheet_directory_uri')) {
+			$this->theme_dir = get_stylesheet_directory_uri();
+		}
 	}
 	
 	private function _category(&$post) {
@@ -63,7 +71,7 @@ class wp_get_post {
 
 		if(!$image) {
 			$this->image->ID = false;
-			$this->image->url = $this->theme_dir . '/img/missing.jpg';
+			$this->image->url = 'http://placehold.it/930x620';//$this->theme_dir . '/img/missing.jpg';
 			return;
 		}
 		$this->image->ID = $image;
