@@ -1,5 +1,5 @@
 {
-    "name": "mariusmandal/wpoo",
+    "name": "mariusmandal/oowp",
     "type": "library",
     "description": "Helper classes for object-oriented wordpress themes",
     "keywords": ["wordpress","themes"],
@@ -18,7 +18,7 @@
     },
     "autoload": {
         "psr-0": {
-            "WPOO\\": ""
+            "WPOO_": ""
         }
     }
 }
