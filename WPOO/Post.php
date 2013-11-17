@@ -18,6 +18,8 @@ class WPOO_Post
 		$this->_content($post);
 		$this->_url($post);
 		$this->_category($post);
+		$this->_excerpt($post);
+		$this->_lead($post);
 		
 		$this->facebook = new stdClass;
 		$this->facebook->shares = 0;
@@ -36,6 +38,30 @@ class WPOO_Post
 			$this->categories[$key]->title = $category->name;
 #			$this->categories[$key]->url = $category->slug;
 			$this->categories[$key]->url = get_category_link($category->term_id);
+		}
+	}
+	
+	private function _excerpt( $post ) {
+		$this->list_excerpt = implode(' ', array_slice(explode(' ', strip_tags($this->content) ), 0, 55));
+	}
+	
+	private function _lead( $post ) {
+		// Find manual excerpt
+		if( !empty( $post->post_excerpt )) {
+			$this->lead = strip_tags( $post->post_excerpt );
+		// Find p class = lead "manual auto"-excerpt
+		} elseif( strpos( $this->content, '<p class="lead">' ) === 0 ) {
+			$stop = strpos( $this->content, '</p>' );
+			$this->lead = substr( $this->content, 16, $stop-16);
+		// Find first sentence(s)
+		} else {
+			$excerpt = get_the_excerpt();
+			$excerpt = implode(' ', array_slice(explode(' ', $excerpt), 0, 40));
+			$stop = strrpos( $excerpt, '. ');
+			if($stop > 0)
+				$this->lead = substr($excerpt, 0, ($stop+1));
+			else
+				$this->lead = $excerpt;
 		}
 	}
 	
