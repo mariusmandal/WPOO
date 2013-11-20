@@ -7,8 +7,10 @@ Author: Marius Mandal
 Version: 0.1 
 Author URI: http://www.mariusmandal.no
 */
-class WPOO_Post
-{	public function __construct($post) {
+class WPOO_Post {
+	var $comments = false;
+
+	public function __construct($post) {
 		$this->_find_wp_themedir();
 		$this->_raw($post);		
 		$this->_title($post);
@@ -24,6 +26,22 @@ class WPOO_Post
 		$this->facebook = new stdClass;
 		$this->facebook->shares = 0;
 		
+	}
+	
+	public function comments() {
+		if(!$this->comments)
+			$this->load_comments();
+		
+		return $this->comments;
+	}
+	
+	private function load_comments() {
+		$comments = get_comments( array('status' => 'approve',
+								        'post_id' => $DATA['post']->ID) 
+							    );
+		foreach( $comments as $comment ) {
+			$this->comments = new WPOO_Comment( $comment );
+		}
 	}
 	
 	private function _find_wp_themedir() {
