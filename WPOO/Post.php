@@ -37,10 +37,10 @@ class WPOO_Post {
 	
 	private function load_comments() {
 		$comments = get_comments( array('status' => 'approve',
-								        'post_id' => $DATA['post']->ID) 
+								        'post_id' => $this->ID) 
 							    );
 		foreach( $comments as $comment ) {
-			$this->comments = new WPOO_Comment( $comment );
+			$this->comments[] = new WPOO_Comment( $comment );
 		}
 	}
 	
