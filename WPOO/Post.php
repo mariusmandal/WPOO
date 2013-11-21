@@ -114,8 +114,29 @@ class WPOO_Post {
 		$this->image = new stdClass();
 
 		if(!$image) {
+			// CHECK POST FOR IMAGES
+			$output = preg_match_all('/<img[^>]+src=[\'"]([^\'"]+)[\'"][^>]*>/i', $this->content, $matches);  
+			if(is_array($matches) && isset($matches[1]) && isset($matches[1][0])) {
+				$image = $matches[1][0];
+			} else {
+				$image = '';
+			}
+			if(!empty($image)) {
+				$this->image->ID = 1;
+				$this->image->url = $image;
+				$data = @getimagesize( $image );
+				if($data) {
+					list($width, $height, $type, $attr) = $data;
+					$this->image->src = $image;
+					$this->image->width = $width;
+					$this->image->height = $height;
+					return;
+				}
+			}
 			$this->image->ID = false;
-			$this->image->url = 'http://placehold.it/930x620';//$this->theme_dir . '/img/missing.jpg';
+			$this->image->url = defined('THEME_DEFAULT_IMAGE') 
+									? THEME_DEFAULT_IMAGE 
+									: 'http://placehold.it/930x620';
 			return;
 		}
 		$this->image->ID = $image;
