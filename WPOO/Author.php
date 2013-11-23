@@ -33,7 +33,7 @@ class WPOO_Author {
         $this->company_name = $wpUser->company_name;
         $this->login = $wpUser->user_login;
         $this->nicename = $wpUser->nicename;
-        $this->email = $wpUser->user_email;
+        $this->user_email = $wpUser->user_email;
         $this->url = $wpUser->url;
         $this->registered = $wpUser->registered;
         $this->display_name = $wpUser->display_name;
