@@ -17,7 +17,6 @@ class WPOO_Post {
 		$this->_content($post);
 		$this->_thumbnail($post);
 		$this->_author($post);
-		$this->_content($post);
 		$this->_url($post);
 		$this->_category($post);
 		$this->_excerpt($post);
@@ -90,7 +89,7 @@ class WPOO_Post {
 	}
 	
 	private function _content(&$post) {
-		$content = apply_filters('the_content', get_the_content());
+		$content = apply_filters('the_content', get_the_content());		
 		$content = apply_filters('do_shortcode', $content);
 		$this->content = str_replace(']]>', ']]&gt;', $content);
 	}
