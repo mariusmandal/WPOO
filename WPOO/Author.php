@@ -24,9 +24,8 @@ class WPOO_Author {
     public $title;
     public $link;
 
-    public function __construct($post)
+    public function __construct($wpUser)
     {
-        $wpUser = get_userdata($post->post_author);
         $this->id = $wpUser->ID;
         $this->login = $wpUser->user_login;
         $this->nicename = $wpUser->nicename;
