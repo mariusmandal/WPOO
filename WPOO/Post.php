@@ -107,6 +107,7 @@ class WPOO_Post {
 	private function _author(&$post) {
 		$userdata = get_userdata( $post->post_author );
 		$this->author = $userdata->data;
+		$this->author->link = get_the_author_link();
 	}
 	
 	private function _thumbnail(&$post) {
