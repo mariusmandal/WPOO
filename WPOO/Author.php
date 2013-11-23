@@ -30,7 +30,7 @@ class WPOO_Author {
     {
 
         $this->id = $wpUser->ID;
-        $this->image = 'http://grafikk.ukm.no/profil/ikoner/person.png';
+        $this->image = 'http://grafikk.ukm.no/placeholder/person.jpg';
         $this->company_name = $wpUser->company_name;
         $this->login = $wpUser->user_login;
         $this->nicename = $wpUser->nicename;
