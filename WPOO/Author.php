@@ -12,7 +12,7 @@ class WPOO_Author {
     public $id;
     public $login;
     public $nicename;
-    public #user_email;
+    public $user_email;
     public $url;
     public $image;
     public $company_name;
