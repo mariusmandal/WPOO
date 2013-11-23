@@ -105,7 +105,7 @@ class WPOO_Post {
 	}
 	
 	private function _author(&$post) {
-	    $this->author = new WPOO_Author(get_userdata($post->post_author));
+	    $this->author = new WPOO_Author($post);
 	}
 	
 	private function _thumbnail(&$post) {
