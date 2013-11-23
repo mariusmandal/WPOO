@@ -22,7 +22,7 @@ class WPOO_Author {
     public $lastname;
     public $nickname;
     public $description;
-    public facebook_url;
+    public $facebook_url;
     public $title;
     public $link;
 
