@@ -28,8 +28,9 @@ class WPOO_Author {
 
     public function __construct($wpUser)
     {
+
         $this->id = $wpUser->ID;
-        $this->image = $wpUser->image;
+        $this->image = 'http://grafikk.ukm.no/profil/ikoner/person.png';
         $this->company_name = $wpUser->company_name;
         $this->login = $wpUser->user_login;
         $this->nicename = $wpUser->nicename;
