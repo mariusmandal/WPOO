@@ -84,7 +84,8 @@ class WPOO_Post {
 	
 	private function _raw(&$post) {
 		$this->raw = $post;
-		$this->date = $this->raw->post_date;		
+		$this->date = $this->raw->post_date;
+		$this->modified = $this->raw->post_modified;
 		$this->ID = isset( $this->raw->ID ) ? $this->raw->ID : 0;
 	}
 	
