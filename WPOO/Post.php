@@ -135,6 +135,15 @@ class WPOO_Post {
 			$output = preg_match_all('/<img[^>]+src=[\'"]([^\'"]+)[\'"][^>]*>/i', $this->content, $matches);  
 			if(is_array($matches) && isset($matches[1]) && isset($matches[1][0])) {
 				$image = $matches[1][0];
+				if( strpos( $image, 'wp-includes/images/smilies') !== false ) {
+					// TO-DO
+					// SHOULD BE A WHILE LOOP
+					if(isset($matches[1]) && isset($matches[1][1])) {
+						$image = $matches[1][1];
+					} else {
+						$image = '';
+					}
+				}
 			} else {
 				$image = '';
 			}
