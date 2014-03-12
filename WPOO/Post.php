@@ -21,7 +21,10 @@ class WPOO_Post {
 		$this->_category($post);
 		$this->_excerpt($post);
 		$this->_lead($post);
-		
+
+		$pattern = "/<p[^>]*><\\/p[^>]*>/"; 
+		$this->content_wo_lead = preg_replace($pattern, '', str_replace($this->lead, '', $this->content));
+			
 		$this->facebook = new stdClass;
 		$this->facebook->shares = 0;
 		
@@ -75,10 +78,25 @@ class WPOO_Post {
 			$excerpt = get_the_excerpt();
 			$excerpt = implode(' ', array_slice(explode(' ', $excerpt), 0, 40));
 			$stop = strrpos( $excerpt, '. ');
-			if($stop > 0)
+			if($stop > 0) {
 				$this->lead = substr($excerpt, 0, ($stop+1));
-			else
+				// If lead text more than a tweet
+				if( $stop > 140 ) {
+					$lead = substr($excerpt, 0, 140);
+					// Is there a period within tweet-length lead?
+					$dotpos = strrpos($lead, '.');
+					if( $dotpos ) {
+						$leadstop = ++$dotpos;
+						$dotdotdot = '';
+					} else {					
+						$leadstop = strrpos( $lead, ' ');
+						$dotdotdot = '...';
+					}
+					$this->lead = substr($lead, 0, $leadstop) . $dotdotdot;
+				}
+			} else {
 				$this->lead = $excerpt;
+			}
 		}
 	}
 	
@@ -111,7 +129,7 @@ class WPOO_Post {
 	private function _thumbnail(&$post) {
 		$image = get_post_thumbnail_id($post->ID);
 		$this->image = new stdClass();
-
+		
 		if(!$image) {
 			// CHECK POST FOR IMAGES
 			$output = preg_match_all('/<img[^>]+src=[\'"]([^\'"]+)[\'"][^>]*>/i', $this->content, $matches);  
@@ -120,6 +138,9 @@ class WPOO_Post {
 			} else {
 				$image = '';
 			}
+			// Do not use thumb-size
+			$image = str_replace('-150x150', '', $image );
+
 			if(!empty($image)) {
 				$this->image->ID = 1;
 				$this->image->url = $image;
@@ -129,9 +150,15 @@ class WPOO_Post {
 					$this->image->src = $image;
 					$this->image->width = $width;
 					$this->image->height = $height;
+					
+					$this->og_image 		= new stdClass();
+					$this->og_image->url	= $image;
+					$this->og_image->width	= $width;
+					$this->og_image->height	= $height;
 					return;
 				}
 			}
+			
 			$this->image->ID = false;
 			$this->image->url = defined('THEME_DEFAULT_IMAGE') 
 									? THEME_DEFAULT_IMAGE 
@@ -144,6 +171,12 @@ class WPOO_Post {
 		$this->image->src = $source_data[0];
 		$this->image->width = $source_data[1];
 		$this->image->height = $source_data[2];
+		
+		$full = wp_get_attachment_image_src( $this->image->ID, 'full' );
+		$this->og_image 		= new stdClass();
+		$this->og_image->url	= $full[0];
+		$this->og_image->width	= $full[1];
+		$this->og_image->height	= $full[2];
 		#		$post->image->meta = wp_get_attachment_metadata($post->image->ID);
 	}
 	
