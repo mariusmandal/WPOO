@@ -58,7 +58,15 @@ class WPOO_Post {
 		foreach($this->categories as $key => $category) {
 			$this->categories[$key]->title = $category->name;
 #			$this->categories[$key]->url = $category->slug;
-			$this->categories[$key]->url = get_category_link($category->term_id);
+			$kat_link = get_category_link($category->term_id);
+			if( !strpos( $kat_link, '/blog/' ) ) {
+				$kat_link_wb = str_replace(array('category/','author/'),array('blog/category/','blog/author/'),$kat_link);
+				$this->categories[$key]->url_w_blog = $kat_link_wb;
+			} else {
+				$this->categories[$key]->url_w_blog = $kat_link;
+			}
+			$this->categories[$key]->url = $kat_link;
+			
 		}
 	}
 	
