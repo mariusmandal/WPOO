@@ -11,6 +11,7 @@ class WPOO_Post {
 	var $comments = false;
 
 	public function __construct($post) {
+		setup_postdata( $post );
 		$this->_find_wp_themedir();
 		$this->_raw($post);		
 		$this->_title($post);
