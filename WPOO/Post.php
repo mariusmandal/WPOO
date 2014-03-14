@@ -73,7 +73,7 @@ class WPOO_Post {
 		// Find p class = lead "manual auto"-excerpt
 		} elseif( strpos( $this->content, '<p class="lead">' ) === 0 ) {
 			$stop = strpos( $this->content, '</p>' );
-			$this->lead = substr( $this->content, 16, $stop-16);
+			$this->lead = strip_tags( substr( $this->content, 16, $stop-16) );
 		// Find first sentence(s)
 		} else {
 			$excerpt = get_the_excerpt();
@@ -96,7 +96,7 @@ class WPOO_Post {
 					$this->lead = substr($lead, 0, $leadstop) . $dotdotdot;
 				}
 			} else {
-				$this->lead = $excerpt;
+				$this->lead = strip_tags( $excerpt );
 			}
 		}
 	}
