@@ -190,13 +190,13 @@ class WPOO_Post {
 		if( $_SERVER['REMOTE_ADDR'] == '195.204.59.122') {
 			echo '<h1>NR1</h1><pre>'; var_dump( $source_data ); echo '</pre>';
 		}
-		if( is_bool($source_data) && $source_data == false ) {
+		if( !is_array($source_data) && $source_data == false ) {
 			$source_data = wp_get_attachment_image_src($this->image->ID, 'medium');
 		}
 		if( $_SERVER['REMOTE_ADDR'] == '195.204.59.122') {
 			echo '<h1>NR2</h1><pre>'; var_dump( $source_data ); echo '</pre>';
 		}
-		if( is_bool($source_data) && $source_data == false ) {
+		if( !is_array($source_data) && $source_data == false ) {
 			$source_data = wp_get_attachment_image_src($this->image->ID);
 		}
 		if( $_SERVER['REMOTE_ADDR'] == '195.204.59.122') {
