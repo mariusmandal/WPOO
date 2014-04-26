@@ -187,6 +187,9 @@ class WPOO_Post {
 		$this->image->ID = $image;
 		$this->image->url = wp_get_attachment_url($this->image->ID);
 		$source_data = wp_get_attachment_image_src($this->image->ID, 'large');
+		if( $_SERVER['REMOTE_ADDR'] == '195.204.59.122') {
+			var_dump( $source_data );
+		}
 		if( is_bool($source_data) && !$source_data ) {
 			$source_data = wp_get_attachment_image_src($this->image->ID, 'medium');
 		}
