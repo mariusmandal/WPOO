@@ -160,11 +160,6 @@ class WPOO_Post {
 			$image = str_replace('-150x150', '', $image );
 
 			if(!empty($image)) {
-				$image_id = url_to_postid( $image );
-				if( $_SERVER['REMOTE_ADDR'] == '195.204.59.122' ) {
-					var_dump( $image );
-					var_dump( $image_id );
-				}
 				$this->image->ID = 1;
 				$this->image->url = $image;
 				$data = @getimagesize( $image );
