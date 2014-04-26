@@ -137,6 +137,11 @@ class WPOO_Post {
 	
 	private function _thumbnail(&$post) {
 		$image = get_post_thumbnail_id($post->ID);
+		
+		if( $_SERVER['REMOTE_SERVER'] == '195.204.59.122' ) {
+			var_dump( 'UIMAGE' );
+			var_dump( $image );
+		}
 		$this->image = new stdClass();
 		
 		if(!$image) {
