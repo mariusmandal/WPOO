@@ -187,11 +187,21 @@ class WPOO_Post {
 		$this->image->url = wp_get_attachment_url($this->image->ID);
 		$source_data = wp_get_attachment_image_src($this->image->ID, 'large');
 		if( !$source_data ) {
+			if( $_SERVER['REMOTE_SERVER'] == '195.204.59.122' ) {
+				var_dump($source_data);
+			}
 			$source_data = wp_get_attachment_image_src($this->image->ID, 'medium');		
 		}
 		if( !$source_data ) {
+			if( $_SERVER['REMOTE_SERVER'] == '195.204.59.122' ) {
+				var_dump($source_data);
+			}
 			$source_data = wp_get_attachment_image_src($this->image->ID);		
 		}
+		if( $_SERVER['REMOTE_SERVER'] == '195.204.59.122' ) {
+			var_dump($source_data);
+		}
+
 		$this->image->src = $source_data[0];
 		$this->image->width = $source_data[1];
 		$this->image->height = $source_data[2];
