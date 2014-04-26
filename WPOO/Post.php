@@ -161,7 +161,7 @@ class WPOO_Post {
 
 			if(!empty($image)) {
 				$image_id = url_to_postid( $image );
-				if( $_SERVER['195.204.59.122'] ) {
+				if( $_SERVER['REMOTE_ADDR'] == '195.204.59.122' ) {
 					var_dump( $image_id );
 				}
 				$this->image->ID = 1;
