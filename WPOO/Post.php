@@ -187,10 +187,10 @@ class WPOO_Post {
 		$this->image->ID = $image;
 		$this->image->url = wp_get_attachment_url($this->image->ID);
 		$source_data = wp_get_attachment_image_src($this->image->ID, 'large');
-		if( !$source_data ) {
+		if( is_bool($source_data) && !$source_data ) {
 			$source_data = wp_get_attachment_image_src($this->image->ID, 'medium');
 		}
-		if( !$source_data ) {
+		if( is_bool($source_data) && !$source_data ) {
 			$source_data = wp_get_attachment_image_src($this->image->ID);
 		}
 
