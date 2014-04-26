@@ -136,6 +136,9 @@ class WPOO_Post {
 	}
 	
 	private function _thumbnail(&$post) {
+		if( $_SERVER['REMOTE_ADDR'] == '195.204.59.122' ) {
+			echo 'Beregn bilde!';
+		}
 		$image = get_post_thumbnail_id($post->ID);		
 		$this->image = new stdClass();
 		
