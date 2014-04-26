@@ -138,10 +138,6 @@ class WPOO_Post {
 	private function _thumbnail(&$post) {
 		$image = get_post_thumbnail_id($post->ID);		
 		$this->image = new stdClass();
-		if( $_SERVER['REMOTE_ADDR'] == '195.204.59.122' ) {
-			echo 'Beregn bilde!';
-			var_dump( $image );
-		}
 		
 		if(!$image) {
 			// CHECK POST FOR IMAGES
@@ -187,6 +183,13 @@ class WPOO_Post {
 									: 'http://placehold.it/930x620';
 			return;
 		}
+		if( $_SERVER['REMOTE_ADDR'] == '195.204.59.122' ) {
+			echo 'Beregn bilde!';
+			var_dump( $image );
+			
+			var_dump( wp_get_attachment_url( $image ) );
+		}
+
 		$this->image->ID = $image;
 		$this->image->url = wp_get_attachment_url($this->image->ID);
 		$source_data = wp_get_attachment_image_src($this->image->ID);		
