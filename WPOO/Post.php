@@ -185,24 +185,16 @@ class WPOO_Post {
 		}
 
 		$this->image->ID = $image;
-		$this->image->url = wp_get_attachment_url($this->image->ID);
+		#$this->image->url = wp_get_attachment_url($this->image->ID);
 		$source_data = wp_get_attachment_image_src($this->image->ID, 'large');
-		if( $_SERVER['REMOTE_ADDR'] == '195.204.59.122') {
-			echo '<h1>NR1</h1><pre>'; var_dump( $source_data ); echo '</pre>';
-		}
 		if( is_bool($source_data) && !$source_data ) {
 			$source_data = wp_get_attachment_image_src($this->image->ID, 'medium');
-			if( $_SERVER['REMOTE_ADDR'] == '195.204.59.122') {
-				echo '<h1>NR2</h1><pre>'; var_dump( $source_data ); echo '</pre>';
-			}
 		}
 		if( is_bool($source_data) && !$source_data ) {
 			$source_data = wp_get_attachment_image_src($this->image->ID);
-			if( $_SERVER['REMOTE_ADDR'] == '195.204.59.122') {
-				echo '<h1>NR3</h1><pre>'; var_dump( $source_data ); echo '</pre>';
-			}
 		}
 		$this->image->src = $source_data[0];
+		$this->image->url = $source_data[0];
 		$this->image->width = $source_data[1];
 		$this->image->height = $source_data[2];
 		
