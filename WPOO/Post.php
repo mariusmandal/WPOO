@@ -184,10 +184,10 @@ class WPOO_Post {
 			return;
 		}
 		if( $_SERVER['REMOTE_ADDR'] == '195.204.59.122' ) {
-			echo 'Beregn bilde!';
+			echo '<h2>Beregn bilde!</h2><pre>';
 			var_dump( $image );
-			
-			var_dump( wp_get_attachment_url( $image ) );
+			var_dump( wp_get_attachment_image_src( $image ) );
+			echo '</pre>';
 		}
 
 		$this->image->ID = $image;
