@@ -136,12 +136,7 @@ class WPOO_Post {
 	}
 	
 	private function _thumbnail(&$post) {
-		$image = get_post_thumbnail_id($post->ID);
-		
-		if( $_SERVER['REMOTE_SERVER'] == '195.204.59.122' ) {
-			var_dump( 'UIMAGE' );
-			var_dump( $image );
-		}
+		$image = get_post_thumbnail_id($post->ID);		
 		$this->image = new stdClass();
 		
 		if(!$image) {
@@ -190,22 +185,7 @@ class WPOO_Post {
 		}
 		$this->image->ID = $image;
 		$this->image->url = wp_get_attachment_url($this->image->ID);
-		$source_data = wp_get_attachment_image_src($this->image->ID, 'large');
-		if( !$source_data ) {
-			if( $_SERVER['REMOTE_SERVER'] == '195.204.59.122' ) {
-				var_dump($source_data);
-			}
-			$source_data = wp_get_attachment_image_src($this->image->ID, 'medium');		
-		}
-		if( !$source_data ) {
-			if( $_SERVER['REMOTE_SERVER'] == '195.204.59.122' ) {
-				var_dump($source_data);
-			}
-			$source_data = wp_get_attachment_image_src($this->image->ID);		
-		}
-		if( $_SERVER['REMOTE_SERVER'] == '195.204.59.122' ) {
-			var_dump($source_data);
-		}
+		$source_data = wp_get_attachment_image_src($this->image->ID);		
 
 		$this->image->src = $source_data[0];
 		$this->image->width = $source_data[1];
