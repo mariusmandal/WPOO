@@ -183,16 +183,16 @@ class WPOO_Post {
 									: 'http://placehold.it/930x620';
 			return;
 		}
-		if( $_SERVER['REMOTE_ADDR'] == '195.204.59.122' ) {
-			echo '<h2>Beregn bilde!</h2><pre>';
-			var_dump( $image );
-			var_dump( wp_get_attachment_image_src( $image, 'large' ) );
-			echo '</pre>';
-		}
 
 		$this->image->ID = $image;
 		$this->image->url = wp_get_attachment_url($this->image->ID);
-		$source_data = wp_get_attachment_image_src($this->image->ID);		
+		$source_data = wp_get_attachment_image_src($this->image->ID, 'large');
+		if( !$source_data ) {
+			$source_data = wp_get_attachment_image_src($this->image->ID, 'medium');
+		}
+		if( !$source_data ) {
+			$source_data = wp_get_attachment_image_src($this->image->ID);
+		}
 
 		$this->image->src = $source_data[0];
 		$this->image->width = $source_data[1];
