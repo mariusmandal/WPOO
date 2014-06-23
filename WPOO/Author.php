@@ -29,7 +29,10 @@ class WPOO_Author {
     public function __construct($wpUser)
     {
         $this->id = $wpUser->ID;
-        $this->image = 'http://grafikk.ukm.no/placeholder/person.jpg';
+        $this->image = get_author_image_url();
+        if(!strlen($this->image)>0) {
+            $this->image = 'http://grafikk.ukm.no/placeholder/person.jpg';
+        }
         $this->company_name = get_the_author_meta( 'title', $this->id );
         $this->login = $wpUser->user_login;
         $this->nicename = $wpUser->nicename;
