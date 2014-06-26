@@ -29,8 +29,8 @@ class WPOO_Author {
     public function __construct($wpUser)
     {
         $this->id = $wpUser->ID;
-        if(strlen(get_wp_user_avatar_src($this->id, 'small'))>0) {
-            $this->image = get_wp_user_avatar_src($this->id, 'small');
+        if(strlen(get_wp_user_avatar_src($this->id, 'original'))>0) {
+            $this->image = get_wp_user_avatar_src($this->id, 'original');
         }
         else {
             $this->image = 'http://grafikk.ukm.no/placeholder/person.jpg';
