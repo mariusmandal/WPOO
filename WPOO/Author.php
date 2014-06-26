@@ -29,7 +29,7 @@ class WPOO_Author {
     public function __construct($wpUser)
     {
         $this->id = $wpUser->ID;
-        if(has_wp_user_avatar($this->id)) {
+        if(strlen(get_wp_user_avatar_src($this->id, 'small'))>0) {
             $this->image = get_wp_user_avatar_src($this->id, 'small');
         }
         else {
