@@ -30,7 +30,7 @@ class WPOO_Author {
     {
         $this->id = $wpUser->ID;
         if(has_wp_user_avatar($this->id)) {
-            $this->image = get_wp_user_avatar_src($user_id, 'small');
+            $this->image = get_wp_user_avatar_src($this->id, 'small');
         }
         else {
             $this->image = 'http://grafikk.ukm.no/placeholder/person.jpg';
