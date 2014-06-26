@@ -29,6 +29,11 @@ class WPOO_Author {
     public function __construct($wpUser)
     {
         $this->id = $wpUser->ID;
+        if(isset($_GET['dev'])) {
+            var_dump(get_wp_user_avater_src($this->id));
+            die();
+        }
+        
         if(strlen(get_wp_user_avatar_src($this->id, 'original'))>0) {
             $this->image = get_wp_user_avatar_src($this->id, 'original');
         }
