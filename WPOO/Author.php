@@ -49,7 +49,7 @@ class WPOO_Author {
         $this->nickname = $wpUser->nickname;
         $this->description = $wpUser->description;
         $this->facebook_url = get_the_author_meta( 'facebook', $this->id );
-        $this->title = get_the_author_meta( 'title', $this->id );
+        $this->title = get_the_author_meta( 'Title', $this->id );
         $this->link = get_author_posts_url( $this->id, $this->nicename );
     }
 
