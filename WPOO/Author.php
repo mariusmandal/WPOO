@@ -29,10 +29,12 @@ class WPOO_Author {
     public function __construct($wpUser)
     {
         $this->id = $wpUser->ID;
-        if(strlen(get_wp_user_avatar_src($this->id, 'original'))>0) {
-            $this->image = get_wp_user_avatar_src($this->id, 'original');
+        if(function_exists('get_wp_user_avatar_src')) {
+            if(strlen(get_wp_user_avatar_src($this->id, 'original'))>0) {
+                $this->image = get_wp_user_avatar_src($this->id, 'original');
+            }
         }
-        else {
+        if(!strlen($this->image)>0) {
             $this->image = 'http://grafikk.ukm.no/placeholder/person.jpg';
         }
         $this->company_name = get_the_author_meta( 'title', $this->id );
