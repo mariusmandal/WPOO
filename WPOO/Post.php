@@ -22,6 +22,7 @@ class WPOO_Post {
 		$this->_category($post);
 		$this->_excerpt($post);
 		$this->_lead($post);
+		$this->_meta($post);
 
 		$pattern = "/<p[^>]*><\\/p[^>]*>/"; 
 		$this->content_wo_lead = preg_replace($pattern, '', str_replace($this->lead, '', $this->content));
@@ -38,6 +39,19 @@ class WPOO_Post {
 		return $this->comments;
 	}
 	
+	private function _meta( &$post ) {
+		$meta = get_post_meta( $this->ID );
+		$this->meta = new stdClass();
+		if( is_array( $meta ) ) {
+			foreach( $meta as $key => $val ) {
+				if( is_array( $val ) && sizeof( $val ) == 1 ) {
+					$this->meta->$key = $val[0];
+				} else {
+					$this->meta->$key = $val;
+				}
+			}
+		}
+	}
 	private function load_comments() {
 		$comments = get_comments( array('status' => 'approve',
 								        'post_id' => $this->ID) 
@@ -54,7 +68,7 @@ class WPOO_Post {
 	}
 	
 	private function _category(&$post) {
-		$this->categories = get_the_category();
+		$this->categories = get_the_category($this->ID);
 		foreach($this->categories as $key => $category) {
 			$this->categories[$key]->title = $category->name;
 #			$this->categories[$key]->url = $category->slug;
@@ -123,11 +137,11 @@ class WPOO_Post {
 	}
 	
 	private function _url(&$post) {
-		$this->url = apply_filters('the_permalink', get_permalink());
+		$this->url = apply_filters('the_permalink', get_permalink($this->ID));
 	}
 	
 	private function _title(&$post) {
-		$this->title = apply_filters( 'the_title', get_the_title(), $this->ID );
+		$this->title = apply_filters( 'the_title', get_the_title($this->ID), $this->ID );
 		$this->title_attribute = the_title_attribute(array('echo'=>false));
 	}
 	
