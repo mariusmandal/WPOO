@@ -98,7 +98,7 @@ class WPOO_Post {
 			$this->lead = strip_tags( substr( $this->content, 16, $stop-16) );
 		// Find first sentence(s)
 		} else {
-			$excerpt = $this->content;
+			$excerpt = strip_tags($this->content);
 			
 			$excerpt = implode(' ', array_slice(explode(' ', $excerpt), 0, 40));
 			$stop = strrpos( $excerpt, '. ');
