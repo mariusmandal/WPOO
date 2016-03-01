@@ -208,17 +208,39 @@ class WPOO_Post {
 		if( is_bool($source_data) && !$source_data ) {
 			$source_data = wp_get_attachment_image_src($this->image->ID);
 		}
+		
+		$full = wp_get_attachment_image_src( $this->image->ID, 'full' );
+		$this->image->full 		= new stdClass();
+		$this->image->full->url	= $full[0];
+		$this->image->full->width	= $full[1];
+		$this->image->full->height	= $full[2];
+		
+		$this->og_image = $this->image->full;
+
+		$large = wp_get_attachment_image_src( $this->image->ID, 'large' );
+		$this->image->large = new stdClass();
+		$this->image->large->src = $large[0];
+		$this->image->large->width = $large[1];
+		$this->image->large->height = $large[2];
+
+		$medium = wp_get_attachment_image_src( $this->image->ID, 'medium' );
+		$this->image->medium = new stdClass();
+		$this->image->medium->src = $medium[0];
+		$this->image->medium->width = $medium[1];
+		$this->image->medium->height = $medium[2];		
+		
+		if( !is_bool($large) ) {
+			$source_data = $large;
+		} elseif( !is_bool($medium) ) {
+			$source_data = $medium;
+		} else {
+			$source_data = $full;
+		}
+		
 		$this->image->src = $source_data[0];
 		$this->image->url = $source_data[0];
 		$this->image->width = $source_data[1];
 		$this->image->height = $source_data[2];
-		
-		$full = wp_get_attachment_image_src( $this->image->ID, 'full' );
-		$this->og_image 		= new stdClass();
-		$this->og_image->url	= $full[0];
-		$this->og_image->width	= $full[1];
-		$this->og_image->height	= $full[2];
-		#		$post->image->meta = wp_get_attachment_metadata($post->image->ID);
 	}
 	
 	public function facebook_value() {
