@@ -51,6 +51,9 @@ class WPOO_Author {
         $this->facebook_url = get_the_author_meta( 'facebook', $this->id );
         $this->title = get_the_author_meta( 'Title', $this->id );
         $this->link = get_author_posts_url( $this->id, $this->nicename );
+        if( empty( $this->display_name ) ) {
+            $this->display_name = $this->nicename;
+        }
     }
 
 }
