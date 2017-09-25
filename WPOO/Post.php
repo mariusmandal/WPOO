@@ -39,6 +39,15 @@ class WPOO_Post {
 		return $this->comments;
 	}
 	
+	public function getContentBeforeMore() {
+		$p = preg_split( '/<span id=\"more-(.*)?"><\/span>/', $this->content );
+		return $p[0];
+	}	
+	public function getContentAfterMore() {
+		$p = preg_split( '/<span id=\"more-(.*)?"><\/span>/', $this->content );
+		return $p[1];
+	}
+	
 	private function _meta( &$post ) {
 		$meta = get_post_meta( $this->ID );
 		$this->meta = new stdClass();
