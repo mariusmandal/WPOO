@@ -162,50 +162,69 @@ class WPOO_Post {
 	private function _thumbnail(&$post) {
 		$image = get_post_thumbnail_id($post->ID);		
 		$this->image = new stdClass();
-		
+
 		if(!$image) {
-			// CHECK POST FOR IMAGES
-			$output = preg_match_all('/<img[^>]+src=[\'"]([^\'"]+)[\'"][^>]*>/i', $this->content, $matches);  
-			if(is_array($matches) && isset($matches[1]) && isset($matches[1][0])) {
-				$image = $matches[1][0];
-				if( strpos( $image, 'wp-includes/images/smilies') !== false ) {
-					// TO-DO
-					// SHOULD BE A WHILE LOOP
-					if(isset($matches[1]) && isset($matches[1][1])) {
-						$image = $matches[1][1];
-					} else {
-						$image = '';
+			$images = get_attached_media( 'image', $post->ID );
+			if( is_array( $images ) && sizeof( $images ) > 0 ) {
+				$first_image = array_shift( $images );
+				$image = $first_image->ID;
+			} else {
+				$output = preg_match_all('/<img[^>]+src=[\'"]([^\'"]+)[\'"][^>]*>/i', $this->content, $matches);  
+				// Sjekker at vi har treff, og at det finnes bilder blant de
+				if(is_array($matches) && isset( $matches[1] ) ) {
+					
+					foreach( $matches[1] as $pos => $image ) {
+						// HVis det er en smiley
+						if( strpos( $image, 'wp-includes/images/smilies') !== false ) {
+							continue;
+						}
+						// Splitt ut -{width}x{height} for å finne bilde-url
+						$image_url_parts = preg_split('/(-[0-9]{1,5}x[0-9]{1,5})/', $image);
+						$image_url = implode('', $image_url_parts );
+						
+						$dir = wp_upload_dir();
+						// Vi bruker kun bilder fra wordpress
+						//  (lett for å sikre ssl, og mest sannsynlig andre gode grunner også?)
+						if ( false === strpos( $image_url, $dir['baseurl'] . '/' ) ) {
+							continue;
+						}
+						
+						$file = basename( $url );
+						$query_args = array(
+							'post_type'   => 'attachment',
+							'post_status' => 'inherit',
+							'fields'      => 'ids',
+							'meta_query'  => array(
+								array(
+									'value'   => $file,
+									'compare' => 'LIKE',
+									'key'     => '_wp_attachment_metadata',
+								),
+							)
+						);
+						$query = new WP_Query( $query_args );
+						if ( $query->have_posts() ) {
+							foreach ( $query->posts as $post_id ) {
+								$image = $post_id;
+								// Første bilde er det vi leter etter,
+								// ikke fortsett å loope posts, eller bilder funnet i teksten (break 2)
+								break 2;
+							}
+						}
+					}
+					
+					// Hvis ingen bilder er funnet i teksten,
+					// eller bilde(r) er funnet, men ikke i WP-databasen
+					// vil $image fortsatt være false
+					if( !$image ) {
+						$this->image->ID = false;
+						$this->image->url = defined('THEME_DEFAULT_IMAGE') 
+											? THEME_DEFAULT_IMAGE 
+											: 'http://placehold.it/930x620';
+						return;
 					}
 				}
-			} else {
-				$image = '';
 			}
-			// Do not use thumb-size
-			$image = str_replace('-150x150', '', $image );
-
-			if(!empty($image)) {
-				$this->image->ID = 1;
-				$this->image->url = $image;
-				$data = @getimagesize( $image );
-				if($data) {
-					list($width, $height, $type, $attr) = $data;
-					$this->image->src = $image;
-					$this->image->width = $width;
-					$this->image->height = $height;
-					
-					$this->og_image 		= new stdClass();
-					$this->og_image->url	= $image;
-					$this->og_image->width	= $width;
-					$this->og_image->height	= $height;
-					return;
-				}
-			}
-			
-			$this->image->ID = false;
-			$this->image->url = defined('THEME_DEFAULT_IMAGE') 
-									? THEME_DEFAULT_IMAGE 
-									: 'http://placehold.it/930x620';
-			return;
 		}
 
 		$this->image->ID = $image;
@@ -217,7 +236,7 @@ class WPOO_Post {
 		if( is_bool($source_data) && !$source_data ) {
 			$source_data = wp_get_attachment_image_src($this->image->ID);
 		}
-		
+
 		$full = wp_get_attachment_image_src( $this->image->ID, 'full' );
 		$this->image->full 		= new stdClass();
 		$this->image->full->url	= $full[0];
