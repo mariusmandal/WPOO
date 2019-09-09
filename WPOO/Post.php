@@ -141,7 +141,8 @@ class WPOO_Post {
 	}
 	
 	private function _content(&$post) {
-		$content = apply_filters('the_content', get_the_content());		
+		#$content = apply_filters('the_content', get_the_content());		
+		$content = apply_filters('the_content', get_the_content(null, false, $post));
 		$content = apply_filters('do_shortcode', $content);
 		$this->content = str_replace(']]>', ']]&gt;', $content);
 	}
